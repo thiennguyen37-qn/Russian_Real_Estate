@@ -7,6 +7,10 @@ __pycache__/
 # Dữ liệu gốc dung lượng lớn (tải lại theo data/README.md)
 data/raw/russia-real-estate.csv
 data/raw/russia-real-estate-2021/
+data/raw/geonames/
+
+# Notebook thử nghiệm
+notebooks/tmp.ipynb
 
 # Dữ liệu sinh ra từ notebook
 data/*.parquet/
