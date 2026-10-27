@@ -10,7 +10,6 @@ Folder chứa bộ dữ liệu lớn dùng cho tiểu luận: các tin đăng b�
 | `raw/russia-real-estate-2021/input_data.csv` | Bộ [Russia Real Estate 2021](https://www.kaggle.com/datasets/mrdaniilak/russia-real-estate-2021) (cùng tác giả, 11.358.150 dòng, phân cách `;`, cấu trúc cột khác bộ gốc) | Tải về |
 | `raw/russia-real-estate-2021/russia-real-estate-2021-after-2021-05-01.csv` | Các dòng của bộ 2021 có ngày sau 2021-05-01 (7.800.008 dòng), dùng làm tập test | Lọc theo ngày, giữ nguyên nội dung |
 | `raw/region_names.csv` | Mã `region` → tên vùng, tọa độ xuất hiện nhiều nhất, thủ phủ và tọa độ thủ phủ | `region_lookup.py` |
-| `raw/geonames/cities15000.txt` | Danh sách thành phố trên 15.000 dân ([GeoNames](https://www.geonames.org/), CC BY 4.0), dùng thử cho khoảng cách tới thành phố gần nhất | Tải về |
 | `clean.parquet` | Dữ liệu đã làm sạch và bổ sung cột | `notebooks/01_load_and_quality_check.ipynb` |
 | `train.parquet`, `test.parquet` | Tập train (từ `clean.parquet`) và tập test (bộ 2021 sau 2021-05-01) đã đổi cùng cấu trúc, cắt ngoại lai `price` theo ngưỡng của train và thêm đặc trưng | `notebooks/03_preprocessing.ipynb` |
 | `train_model.parquet`, `test_model.parquet` | Dữ liệu đưa vào mô hình: `price` và 16 đặc trưng; `building_type` mã hóa one-hot (bỏ Panel làm tham chiếu), Unknown ở tập test được điền bằng mode của tập train theo nhóm | `notebooks/03_preprocessing.ipynb` (mục 8) |
