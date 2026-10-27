@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.venv/
+
+# Dữ liệu gốc dung lượng lớn (tải lại theo data/README.md)
+data/raw/russia-real-estate.csv
+data/raw/russia-real-estate-2021/
+
+# Dữ liệu sinh ra từ notebook
+data/*.parquet/
+spark-warehouse/
+metastore_db/
+derby.log

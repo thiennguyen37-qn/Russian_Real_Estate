@@ -1,0 +1,10 @@
+# Python 3.11 (PySpark 3.5 trên Windows lỗi với Python 3.12), cần Java 17
+pyspark==3.5.3
+pyarrow==26.0.0
+pandas==3.1.0
+numpy==2.4.6
+matplotlib==3.11.2
+seaborn==0.13.2
+cartopy==0.26.0
+shapely==2.2.0
+ipykernel==7.4.0

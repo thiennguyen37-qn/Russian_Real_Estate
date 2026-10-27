@@ -1,0 +1,144 @@
+% Biên dịch bằng XeLaTeX:  xelatex Thuyet_minh_tieu_luan.tex  (chạy 2 lần)
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[top=2cm,bottom=2cm,left=2.5cm,right=2cm]{geometry}
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+\usepackage{setspace}
+\setstretch{1.15}
+\usepackage{microtype}
+\usepackage[table]{xcolor}
+\usepackage{array,tabularx,multirow,longtable}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{needspace}
+\PassOptionsToPackage{hyphens}{url} % cho phép ngắt URL tại dấu gạch nối
+\usepackage[hidelinks]{hyperref}
+\urlstyle{same}
+
+% Tên nhãn bảng bằng tiếng Việt
+\renewcommand{\tablename}{Bảng}
+\captionsetup{labelsep=period,font={small,it},skip=3pt}
+
+% Đề mục: đậm, cỡ chữ thường
+\titleformat{\section}{\normalfont\bfseries}{\thesection.}{0.5em}{}
+\titlespacing*{\section}{0pt}{7pt}{3pt}
+
+% Danh sách dấu đầu dòng gọn
+\setlist[itemize]{leftmargin=1.5em,itemsep=1pt,topsep=2pt,parsep=0pt}
+
+% Đoạn văn: không thụt đầu dòng, cách đoạn nhỏ
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+
+\renewcommand{\arraystretch}{1.18}
+\newcommand{\hd}[1]{\textbf{#1}}
+\newcommand{\ft}[1]{\texttt{\footnotesize #1}}
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+
+\pagestyle{plain}
+\emergencystretch=2em
+
+\begin{document}
+
+% ---------------- Tiêu đề ----------------
+\begin{center}
+  {\fontsize{14}{17}\selectfont\bfseries THUYẾT MINH ĐỀ TÀI TIỂU LUẬN CUỐI KÌ\par}
+  \vspace{2pt}
+  Môn học: Khai phá các tập dữ liệu lớn\par
+  \vspace{4pt}
+  {\fontsize{13}{16}\selectfont\bfseries Dự đoán giá căn hộ tại Nga trên tập dữ liệu hơn 5,4 triệu tin đăng bán\par}
+  \vspace{4pt}
+  {\small Sinh viên: Nguyễn Hồ Bảo Thiên \;|\; MSSV: 8282548017 \;|\; Lớp: KHDL K28B\par}
+  {\small Giảng viên: TS. Trần Thiên Thành\par}
+  \vspace{-2pt}
+  \rule{\textwidth}{0.4pt}
+\end{center}
+
+% ---------------- 1 ----------------
+\section{Đặt vấn đề}
+Giá căn hộ là thông tin quan trọng với người mua, người bán, ngân hàng khi định giá tài sản thế chấp và cơ quan quản lý thị trường. Tại Nga, phần lớn giao dịch nhà ở bắt đầu từ tin đăng trên các trang bất động sản trực tuyến; mỗi tin ghi giá chào bán cùng vị trí và thông số của căn hộ. Nếu ước lượng được giá hợp lý của một căn hộ từ các thông tin này, người dùng có thể nhận ra tin rao giá quá cao hoặc quá thấp so với thị trường. Tập dữ liệu hơn 5,4 triệu tin đăng bán căn hộ giai đoạn 2018--2021, gồm cả thời kỳ giá tăng mạnh năm 2020--2021, phù hợp để thực hành các kỹ thuật khai phá dữ liệu lớn trên một bài toán có ý nghĩa thực tiễn.
+
+% ---------------- 2 ----------------
+\section{Mục tiêu}
+Xây dựng và đánh giá mô hình hồi quy dự đoán \textbf{giá chào bán} của một căn hộ từ vị trí, thông số tòa nhà, thông số căn hộ và thời điểm đăng tin. Các mục tiêu cụ thể:
+\begin{itemize}
+  \item Tiền xử lý và chuẩn hóa dữ liệu quy mô lớn, có nhiều giá trị lỗi, bản ghi trùng lặp và nhiễu.
+  \item So sánh các mô hình hồi quy, từ mô hình tuyến tính dễ giải thích đến mô hình cây tổ hợp.
+  \item Xác định các yếu tố ảnh hưởng nhiều nhất đến giá căn hộ.
+  \item Đánh giá khả năng khái quát hóa theo thời gian, vì mặt bằng giá thay đổi mạnh qua các năm.
+  \item Khảo sát khả năng mở rộng của quy trình xử lý (thời gian chạy, bộ nhớ) khi tăng kích thước dữ liệu.
+\end{itemize}
+
+% ---------------- 3 ----------------
+\section{Dữ liệu}
+Dữ liệu là bộ \emph{Russia Real Estate 2018--2021} do tác giả Daniilak công bố trên Kaggle (\url{https://www.kaggle.com/datasets/mrdaniilak/russia-real-estate-20182021}), tổng hợp tin đăng bán căn hộ từ các trang bất động sản phổ biến tại Nga.
+
+\Needspace{9\baselineskip}
+\begin{center}
+\captionof{table}{Thông tin tập dữ liệu}
+\small
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{2.9cm}|X|}
+\hline
+\rowcolor{gray!20} \hd{Đặc điểm} & \hd{Giá trị} \\ \hline
+Quy mô & 5.477.006 dòng, 13 cột. Mỗi dòng là một tin đăng bán căn hộ. \\ \hline
+Thời gian & Từ 19/02/2018 đến 01/05/2021. \\ \hline
+Biến mục tiêu & Giá chào bán (rúp): trung vị 2,99 triệu; 98\% số tin nằm trong khoảng 0,75 đến 24,1 triệu. \\ \hline
+\end{tabularx}
+\end{center}
+
+Các thuộc tính của tập dữ liệu được mô tả ở Bảng 2. Các cột cùng loại được gộp thành một dòng.
+
+\begingroup\small
+\begin{longtable}{|>{\raggedright\arraybackslash}p{4.3cm}|>{\raggedright\arraybackslash}p{11.2cm}|}
+\caption{Các thuộc tính của tập dữ liệu}\\
+\hline
+\rowcolor{gray!20} \hd{Feature} & \hd{Giải thích ý nghĩa} \\ \hline
+\endfirsthead
+\hline
+\rowcolor{gray!20} \hd{Feature} & \hd{Giải thích ý nghĩa} \\ \hline
+\endhead
+\ft{price} & Giá chào bán của căn hộ, đơn vị rúp; là biến mục tiêu. \\ \hline
+\ft{date} & Ngày đăng tin, định dạng năm-tháng-ngày. \\ \hline
+\ft{time} & Giờ, phút và giây đăng tin. \\ \hline
+\ft{geo\_lat}\newline\ft{geo\_lon} & Vĩ độ và kinh độ của căn hộ. \\ \hline
+\ft{region} & Mã vùng (chủ thể liên bang) của Nga nơi có căn hộ. \\ \hline
+\ft{building\_type} & Loại tường của tòa nhà: panel, bê tông liền khối, gạch, block, gỗ hoặc loại khác. \\ \hline
+\ft{object\_type} & Loại thị trường: nhà đã qua sử dụng hoặc nhà mới xây. \\ \hline
+\ft{level} & Tầng của căn hộ. \\ \hline
+\ft{levels} & Tổng số tầng của tòa nhà. \\ \hline
+\ft{rooms} & Số phòng ở; giá trị $-1$ là căn hộ studio. \\ \hline
+\ft{area} & Tổng diện tích căn hộ (m\textsuperscript{2}). \\ \hline
+\ft{kitchen\_area} & Diện tích bếp (m\textsuperscript{2}). \\ \hline
+\end{longtable}
+\endgroup
+
+% ---------------- 4 ----------------
+\section{Bài toán và phương pháp}
+\textbf{4.1. Định nghĩa bài toán.} Đề tài tập trung vào bài toán dự đoán giá chào bán bất động sản tại Nga dựa trên thông tin về vị trí, đặc điểm căn hộ, tòa nhà và thời điểm đăng tin. Do giá bất động sản có sự chênh lệch lớn giữa các khu vực và thời điểm, dữ liệu sẽ được khảo sát và xử lý trước khi đưa vào mô hình nhằm nâng cao độ tin cậy của kết quả. Cần lưu ý rằng giá dự đoán phản ánh mức giá chào bán ước tính, không phải giá giao dịch thực tế.
+
+\textbf{4.2. Xử lý và khai thác dữ liệu.} Dữ liệu được làm sạch để hạn chế ảnh hưởng của các bản ghi trùng lặp, thiếu hợp lý hoặc có giá trị bất thường. Các thông tin về vị trí địa lý, thời gian đăng tin và đặc điểm của bất động sản sẽ được sử dụng để xây dựng mô hình. Trong đó, vị trí và thời gian là hai yếu tố đáng chú ý, bởi giá nhà có thể khác biệt đáng kể giữa các khu vực và thay đổi theo diễn biến của thị trường.
+
+\textbf{4.3. Phương pháp thực nghiệm.} Dữ liệu được chia theo thời gian để mô hình được huấn luyện trên dữ liệu của những năm trước và đánh giá trên dữ liệu của các năm tiếp theo. Cách tiếp cận này giúp phản ánh sát hơn tình huống áp dụng mô hình vào thực tế, đồng thời xem xét khả năng dự đoán khi thị trường bất động sản có sự thay đổi. Một số mô hình hồi quy và học máy sẽ được thử nghiệm, so sánh với phương pháp dự đoán cơ sở để đánh giá hiệu quả của từng cách tiếp cận.
+
+\textbf{4.4. Đánh giá mô hình và khía cạnh dữ liệu lớn.} Hiệu quả mô hình được đánh giá thông qua mức độ sai lệch giữa giá dự đoán và giá chào bán trong dữ liệu, từ đó xác định phương pháp phù hợp hơn với bài toán. Bên cạnh mục tiêu dự đoán, đề tài còn khai thác khía cạnh dữ liệu lớn thông qua việc thống kê và phân tích dữ liệu theo khu vực, thời gian, đồng thời khảo sát khả năng xử lý và huấn luyện trên các nền tảng như Apache Spark. Kết quả thực nghiệm sẽ giúp làm rõ sự khác biệt về hiệu quả xử lý giữa các cách tiếp cận khi làm việc với tập dữ liệu có quy mô lớn.
+
+% ---------------- 5 ----------------
+\Needspace{12\baselineskip}
+\section{Kế hoạch thực hiện}
+\begin{center}
+\captionof{table}{Các giai đoạn dự kiến}
+\small
+\begin{tabularx}{\textwidth}{|>{\centering\arraybackslash}p{2.1cm}|X|}
+\hline
+\rowcolor{gray!20} \hd{Giai đoạn} & \hd{Nội dung} \\ \hline
+1 & Khảo sát và làm sạch dữ liệu \\ \hline
+2 & Xây dựng đặc trưng vị trí, thời gian, tòa nhà và căn hộ \\ \hline
+3 & Huấn luyện và so sánh các mô hình \\ \hline
+4 & Đánh giá trên tập kiểm tra, phân tích yếu tố ảnh hưởng và khả năng mở rộng \\ \hline
+5 & Viết báo cáo và trình bày \\ \hline
+\end{tabularx}
+\end{center}
+
+\end{document}
