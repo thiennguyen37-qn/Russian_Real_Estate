@@ -1,7 +1,7 @@
 """Tạo bảng tra cứu mã region -> tên vùng, tọa độ xuất hiện nhiều nhất và thủ phủ của mỗi mã.
 
 Đầu ra: data/raw/region_names.csv với các cột region, province, most_frequent_coord, capital, capital_coord.
-Chạy: python region_lookup.py
+Chạy: python src/region_lookup.py
 """
 import os
 import sys
@@ -17,7 +17,7 @@ from pyspark.sql import SparkSession
 from pyspark.sql.types import (StructType, StructField, IntegerType, LongType,
                                DoubleType, StringType)
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parents[1]
 DATA_PATH = ROOT / "data" / "raw" / "russia-real-estate.csv"
 OUT_PATH = ROOT / "data" / "raw" / "region_names.csv"
 

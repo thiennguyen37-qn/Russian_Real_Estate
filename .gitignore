@@ -12,6 +12,10 @@ data/raw/geonames/
 # Notebook thử nghiệm
 notebooks/tmp.ipynb
 
+# Ghi chú và thuyết minh cá nhân
+note.md
+manuscript/
+
 # Dữ liệu sinh ra từ notebook
 data/*.parquet/
 spark-warehouse/
