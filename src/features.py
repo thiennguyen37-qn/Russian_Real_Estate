@@ -12,6 +12,4 @@ def add_features(df: DataFrame) -> DataFrame:
             .withColumn("month", F.month("date"))
             .withColumn("months_since_start", F.months_between(month_start, F.lit(START_MONTH).cast("date")).cast("int"))
             .withColumn("is_moscow_or_spb", F.col("province").isin("Moscow", "Saint Petersburg").cast("int"))
-            .withColumn("is_first_floor", (F.col("level") == 1).cast("int"))
-            .withColumn("is_top_floor", (F.col("level") == F.col("levels")).cast("int"))
             .withColumn("level_ratio", F.col("level") / F.col("levels")))
