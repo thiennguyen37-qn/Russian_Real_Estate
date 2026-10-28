@@ -10,8 +10,7 @@ Folder chứa bộ dữ liệu lớn dùng cho tiểu luận: các tin đăng b�
 | `raw/russia-real-estate-2021/russia-real-estate-2021-from-2021-05-02-to-2021-06-30.csv` | Các dòng có ngày từ 02/05 đến 30/06/2021 của bộ [Russia Real Estate 2021](https://www.kaggle.com/datasets/mrdaniilak/russia-real-estate-2021) (cùng tác giả, phân cách `;`, cấu trúc cột khác bộ gốc), tức 2 tháng đầu sau giai đoạn train (1.739.965 dòng), dùng làm tập test | Tải `input_data.csv` (11.358.150 dòng) từ Kaggle, lọc theo ngày, giữ nguyên nội dung từng dòng |
 | `raw/region_names.csv` | Mã `region` → tên vùng, tọa độ xuất hiện nhiều nhất, thủ phủ và tọa độ thủ phủ | `src/region_lookup.py` |
 | `clean.parquet` | Dữ liệu đã làm sạch và bổ sung cột | `notebooks/01_load_and_quality_check.ipynb` |
-| `train.parquet`, `test.parquet` | Tập train (từ `clean.parquet`) và tập test (bộ 2021, 02/05–30/06/2021) đã đổi cùng cấu trúc, cắt ngoại lai `price` theo ngưỡng của train, bỏ bản ghi test trùng với train và thêm đặc trưng | `notebooks/03_preprocessing.ipynb` |
-| `train_model.parquet`, `test_model.parquet` | Dữ liệu đưa vào mô hình: `price`, 16 đặc trưng và `province`; `building_type` mã hóa one-hot (bỏ Panel làm tham chiếu), Unknown ở tập test được điền bằng mode của tập train theo nhóm | `notebooks/03_preprocessing.ipynb` (mục 9) |
+| `train_model.parquet`, `test_model.parquet` | Tập train (từ `clean.parquet`) và tập test (bộ 2021, 02/05–30/06/2021) đã đổi cùng cấu trúc, cắt ngoại lai `price` theo ngưỡng của train, bỏ bản ghi test trùng với train và thêm đặc trưng; gồm `price`, 16 đặc trưng và `province`, `building_type` mã hóa one-hot (bỏ Panel làm tham chiếu), Unknown ở tập test được điền bằng mode của tập train theo nhóm | `notebooks/03_preprocessing.ipynb` |
 
 Thứ tự chạy khi tạo lại từ đầu: `python src/region_lookup.py`, sau đó notebook 01 (notebook cần `region_names.csv`), rồi notebook 03.
 
