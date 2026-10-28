@@ -8,8 +8,6 @@ def add_features(df: DataFrame) -> DataFrame:
     """Thêm các cột thời gian, nhóm vùng và vị trí tầng; df cần có date (kiểu ngày), province, level, levels."""
     month_start = F.trunc(F.col("date"), "month")
     return (df
-            .withColumn("year", F.year("date"))
-            .withColumn("month", F.month("date"))
             .withColumn("months_since_start", F.months_between(month_start, F.lit(START_MONTH).cast("date")).cast("int"))
             .withColumn("is_moscow_or_spb", F.col("province").isin("Moscow", "Saint Petersburg").cast("int"))
             .withColumn("level_ratio", F.col("level") / F.col("levels")))
