@@ -24,3 +24,6 @@ derby.log
 
 # Slide thuyết trình (không đưa lên GitHub)
 slides/
+
+# File nộp bài (đóng gói notebooks và slides)
+BaoCaoCuoiKy.zip
