@@ -21,3 +21,6 @@ data/*.parquet/
 spark-warehouse/
 metastore_db/
 derby.log
+
+# Slide thuyết trình (không đưa lên GitHub)
+slides/
